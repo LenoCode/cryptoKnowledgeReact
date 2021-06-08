@@ -3,10 +3,46 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createLogger} from "redux-logger/src";
+import {applyMiddleware, createStore} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import rootReducer from "./store/Store";
+import {Provider} from "react-redux";
+
+
+const logger = createLogger({
+    collapsed: true,
+    level: 'info',
+});
+
+// Redux DevTools Configuration
+const actionCreators = {
+};
+
+const baseMiddleware = [];
+baseMiddleware.push(logger);
+baseMiddleware.push(thunk);
+
+const composeEnhancers = composeWithDevTools({
+    actionCreators,
+    trace: true,
+});
+
+
+
+// @ts-ignore
+const store = createStore(rootReducer,
+    composeEnhancers(applyMiddleware(...[...baseMiddleware])),
+);
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Provider store={store}>
+            <App />
+      </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
