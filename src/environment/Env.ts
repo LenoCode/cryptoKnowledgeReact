@@ -1,11 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const CRYPTO_REST_URL:string = "cryptoRestUrl";
+
+
+export const Environment={
+    CRYPTO_REST_URL : "http://localhost:8000",
+    ADMIN_USERNAME:"leno",
+    ADMIN_PASSWORD:"djanogmojcale321"
+
+}
+
+
+
 
 
 
 function initEnvironment(){
+
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-        process.env[CRYPTO_REST_URL] = "http://localhost:8000";
+        Environment.CRYPTO_REST_URL = "http://localhost:8000"
+
     } else {
 
     }

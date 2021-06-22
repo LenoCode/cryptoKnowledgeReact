@@ -7,14 +7,12 @@ export interface Pages{
 
 
 const ReactController = (props: {pages:Array<Pages>}) => {
-    console.log(props);
     return (
         <Router>
             <Switch>
                 {props.pages.map((page, index) => {
-                    console.log(page.path)
                     return (
-                        <Route key={index} path={page.path}>
+                        <Route exact key={index} path={page.path}>
                             {page.Component}
                         </Route>
                     )

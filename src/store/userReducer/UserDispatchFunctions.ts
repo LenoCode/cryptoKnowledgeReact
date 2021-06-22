@@ -1,24 +1,33 @@
 import {USER_REDUCER_NAME, UserReducerState} from "./UserReducer";
 import {Action} from "../Store";
+import {CryptoRestUserDetailsDto} from "../../utilz/rest/clients/CryptoRestDtos";
 
 
-export function changeLoginStatus(loginStatus:boolean,username:string,authorities:[],token:string){
+
+
+export function dispatchNewUserDetails(userDetails:CryptoRestUserDetailsDto,token:string|null){
 
     const callbackDispatch = (newState:UserReducerState,payload:any)=>{
-        newState.loginStatus.loginStatus = payload.loginStatus;
-        newState.loginStatus.authorities = payload.authorities;
-        newState.loginStatus.username = payload.username;
-        newState.loginStatus.token = payload.token
+        if(!newState.initialized){
+            console.log("Initializing to truth");
+            newState.initialized = true;
+        }
+
+        newState.userDetails.loginStatus = payload.loginStatus;
+        newState.userDetails.superUser = payload.superUser;
+        newState.userDetails.username = payload.username;
+        newState.userDetails.modules = payload.modules
+        newState.userDetails.token = payload.token
         return newState
     }
 
     return createAction(callbackDispatch,{
-        loginStatus,
-        username,
-        authorities,
+        loginStatus:true,
+        username:userDetails.name,
+        superUser:userDetails.superUser,
+        modules:userDetails.modules,
         token
     })
-
 }
 
 

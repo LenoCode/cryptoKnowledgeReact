@@ -6,25 +6,28 @@ import {Action} from "../Store";
 
 export const USER_REDUCER_NAME = "UserReducer";
 
-export type LoginStatusType={
+export type UserDetails ={
     loginStatus:boolean,
     username:string,
-    authorities:[],
+    modules:[],
+    superUser:boolean
     token:string,
 }
 
 export type UserReducerState = {
-    loginStatus:LoginStatusType
+    initialized:boolean,
+    userDetails:UserDetails
 }
 
 
-
-const initialState :UserReducerState={
-    loginStatus:{
-        loginStatus:false,
-        username:"",
-        authorities:[],
-        token:"",
+const initialState: UserReducerState = {
+    initialized:false,
+    userDetails: {
+        loginStatus: false,
+        username: "",
+        modules: [],
+        superUser: false,
+        token: "",
     }
 };
 
@@ -33,7 +36,7 @@ const initialState :UserReducerState={
  * @param state
  */
 function getCopiedObject(state:UserReducerState){
-    return {...state,loginStatus: {...state.loginStatus}}
+    return {...state,loginStatus: {...state.userDetails}}
 }
 
 /**
@@ -46,7 +49,7 @@ function getCopiedObject(state:UserReducerState){
  * @param action
  */
 export default function (state: UserReducerState = initialState, action: Action): any {
-    if (typeof action.type != 'string' && action.type.reducer === USER_REDUCER_NAME) {
+    if (typeof action.type !== 'string' && action.type.reducer === USER_REDUCER_NAME) {
         const newState = getCopiedObject(state);
         action.type.action(newState,action.payload);
         return newState;

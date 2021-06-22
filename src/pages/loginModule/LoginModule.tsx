@@ -42,7 +42,7 @@ const LoginModule = (props:ModuleViewControls)=>{
     // @ts-ignore
     const contextProps:LoginModuleContextProps = useContext(ViewModuleManagerContext);
     // @ts-ignore
-    const loginStatus = useSelector((store: Store) =>store.userReducer.loginStatus);
+    const loginStatus = useSelector((store: Store) =>store.userReducer.userDetails);
 
     // @ts-ignore
     const children = props.children

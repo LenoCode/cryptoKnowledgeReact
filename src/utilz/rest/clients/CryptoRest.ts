@@ -1,21 +1,33 @@
 import axios, {AxiosInstance} from 'axios';
+import {EndPoints, HttpClient} from '../Client';
+import {Environment} from "../../../environment/Env";
 
 
-type CryptoRest={
-    restClient:AxiosInstance
+export interface RestMethod {
+    get:(callback:Function,params:Object)=>void
+    post:(callback:Function,json:object)=>void
 }
 
-console.log("test");
-
-export const cryptoRestClient: CryptoRest={
-    restClient:axios.create({
-        baseURL:process.env.CRYPTO_REST_URL
-    })
+export interface CryptoRestEndPoints {
+    login: RestMethod
+    getUserDetailsFromToken:RestMethod
 }
 
 
 
-function createRestCryptoClient(){
-    cryptoRestClient.restClient.interceptors.request.use()
-
+const endPoints:EndPoints = {
+    urls:[
+        {
+            name:"login",
+            path:"api-token-auth/"
+        },
+        {
+            name:"getUserDetailsFromToken",
+            path:"rest/accountInformation/getUserDetails"
+        }
+    ]
 }
+
+
+// @ts-ignore
+export const CryptoRestClient:HttpClient<CryptoRestEndPoints> = new HttpClient<CryptoRestEndPoints>("cryptoRestClient", Environment.CRYPTO_REST_URL,endPoints)

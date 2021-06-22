@@ -5,14 +5,8 @@ import {LoginMetaProps} from "./loginModule/LoginModule";
 import RouterController, {Pages} from "../utilz/router/RouterController";
 import initEnvironment from "../environment/Env";
 import {useEffect} from "react";
+import {HomeModuleMetaProps} from "./homeModule/HomeModule";
 
-
-const Div = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-`
 
 
 function constructBaseUrl(restUrl:string){
@@ -21,19 +15,20 @@ function constructBaseUrl(restUrl:string){
 
 const modulePages:Array<Pages> = [
         {
-            path:constructBaseUrl("loginModule"),
+            path:"/",
             Component:<ViewModuleManager module={LoginMetaProps}/>
-        }
+        },
+
+        {
+            path:"/crypto/",
+            Component:<ViewModuleManager module={HomeModuleMetaProps}/>
+        },
     ]
 
 
 
 
 export default ()=>{
-
-    useEffect(()=>{
-        initEnvironment()
-    },[])
 
     return(
         <RouterController pages={modulePages}/>

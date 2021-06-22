@@ -9,7 +9,6 @@ export default (props:ModuleViewControls)=>{
     // @ts-ignore
     const contextProps: LoginModuleContextProps = useContext(ViewModuleManagerContext);
 
-
     return (
         <div>
             <p>{contextProps.test}</p>

@@ -5,6 +5,7 @@ import AppIndex from "./pages/index"
 import {Provider} from "react-redux";
 
 
+
 function App() {
     return (
         <AppIndex/>
