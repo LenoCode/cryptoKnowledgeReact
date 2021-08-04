@@ -7,6 +7,8 @@ import {Button, PageHeader, Tag} from "antd";
 //PAGES
 import styled from "styled-components";
 import OverviewPage from "./homePages/overview/OverviewPage";
+import VerticalNavigator, {VerticalNavigatorItem} from "../../components/navigator/VerticalNavigator";
+import {UserDetails} from "../../store/userReducer/UserReducer";
 
 export interface HomeModuleContextProps{
     test:string
@@ -14,41 +16,51 @@ export interface HomeModuleContextProps{
 
 const Div = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background:white;
 `
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  height: 80px;
-  width: 100%;
-  background: #1890ff;
-  margin:1px;
-`
-const Name = styled.p`
-  margin: 1px;
-  font-size: 22px;
-  color: white;
-`;
 const Body=styled.div`
   display: flex;
-  height: 100%;
+  height: 99%;
+  width: 99%;
+  margin: 5px;
+  padding:5px;
   overflow: hidden;
 `
+const DivNavigator = styled.div`
+    display: flex;
+    width: 250px;
+    height: 100%;
+`
+
+
+
+
+function setNavigatorItems(props:ModuleViewControls):Array<VerticalNavigatorItem>{
+    return [
+        {
+            name:"Overview",
+            onClick:()=>{props.viewControl.changeViewSubPage(OverviewPage)}
+        }
+    ]
+}
 
 const HomeModule = (props:ModuleViewControls)=>{
     // @ts-ignore
     const contextProps:HomeModuleContextProps = useContext(ViewModuleManagerContext);
-
+    const userDetails:UserDetails = useSelector((store:Store)=>{return store.userReducer.userDetails})
     // @ts-ignore
     const children = props.children
+
     return (
         <Div>
-            <Header>
-                <Name>Home</Name>
-            </Header>
+            <DivNavigator>
+                <VerticalNavigator items={setNavigatorItems(props)}/>
+            </DivNavigator>
+
             <Body>
                 {children}
             </Body>

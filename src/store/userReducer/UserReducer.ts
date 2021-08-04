@@ -36,7 +36,7 @@ const initialState: UserReducerState = {
  * @param state
  */
 function getCopiedObject(state:UserReducerState){
-    return {...state,loginStatus: {...state.userDetails}}
+    return {...state,userDetails: {...state.userDetails}}
 }
 
 /**

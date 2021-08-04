@@ -2,14 +2,17 @@ import {CryptoRestClient} from "../../../../utilz/rest/clients/CryptoRest";
 import {constants} from "http2";
 import {Dispatch} from "redux";
 import {dispatchNewUserDetails} from "../../../../store/userReducer/UserDispatchFunctions";
-import {CryptoRestUserDetailsDto} from "../../../../utilz/rest/clients/CryptoRestDtos";
+import {
+    CryptoGetRestUserDetailsResponseDto,
+    CryptoPostRestLoginResponseDto
+} from "../../../../utilz/rest/clients/CryptoRestDtos";
 
 
 /*** Check for existence of token
  *
  */
 export function checkForToken():boolean{
-    return localStorage.getItem("Token") !== undefined
+    return localStorage.getItem("Token") !== null
 }
 
 
@@ -21,11 +24,18 @@ export function getUserDetailsFromToken(dispatch: Dispatch, history:any){
     const params={
         token,
     }
-    CryptoRestClient.getEndPoints().getUserDetailsFromToken.get((response: any) => {
-        const data: CryptoRestUserDetailsDto = response.data;
-        dispatch(dispatchNewUserDetails(data,token));
+    const response = (response:CryptoGetRestUserDetailsResponseDto)=>{
+        dispatch(dispatchNewUserDetails(response, token));
+        if(token != null){
+            CryptoRestClient.setToken(token)
+        }
         history.push("/crypto/");
-    }, params);
+    }
+
+    const err = (err:any)=>{
+        console.log(err,"imamo error");
+    }
+    CryptoRestClient.getEndPoints().getUserDetailsFromToken.get(response,err, params);
 }
 
 /***
@@ -34,16 +44,21 @@ export function getUserDetailsFromToken(dispatch: Dispatch, history:any){
  * credentials : username - leno
  *               password - djangomojcale321
  */
-export function onClickLogin(username:string,password:string) {
+export function onClickLogin(username:string,password:string,setLoginClicked:Function) {
     const credentials = {
         username:username,
         password:password
     }
-    // @ts-ignore
-    CryptoRestClient.getEndPoints().login.post((response) => {
-        if (response.status == 200) {
-            CryptoRestClient.setToken(response.data.token);
-            localStorage.setItem("Token", response.data.token)
+
+    const response = (response:CryptoPostRestLoginResponseDto)=> {
+        CryptoRestClient.setToken(response.token);
+        localStorage.setItem("Token", response.token);
+        setLoginClicked()
         }
-    }, credentials);
+
+    const err = (err:any)=>{
+        console.log("Bad request");
+    }
+    CryptoRestClient.getEndPoints().login.post(response,err,credentials);
+
 }

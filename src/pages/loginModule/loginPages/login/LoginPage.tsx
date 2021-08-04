@@ -9,6 +9,7 @@ import {checkForToken, getUserDetailsFromToken, onClickLogin} from "./LoginFunct
 import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
 import {Store} from "../../../../store/Store";
+import {cryptoEnvironment} from "../../../../environment/Env";
 
 const Div = styled.div`
   display: flex;
@@ -33,18 +34,19 @@ export default (props:ModuleViewControls)=>{
     const history = useHistory();
     const dispatch = useDispatch()
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const contextProps: LoginModuleContextProps = useContext(ViewModuleManagerContext);
     const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
+    const [loginClicked,setLoginClicked] = useState(false);
     const initialized = useSelector((store:Store) =>{return store.userReducer.initialized});
 
     useEffect(()=>{
         if (checkForToken() && !initialized) {
-            getUserDetailsFromToken(dispatch,history);
+            getUserDetailsFromToken(dispatch, history);
             //props.viewControl.changeViewSubPage(Register);
-
         }
-    },[])
+    },[loginClicked])
 
     return (
         <Div>
@@ -55,7 +57,7 @@ export default (props:ModuleViewControls)=>{
                 <Input.Password placeholder={"Password"} size={"large"} onChange={ (e)=>{setPassword(e.target.value)}}
                                 style={{width:"60%",height:"40px",alignSelf:"center"}}/>
 
-                <Button onClick={()=>{onClickLogin(username,password)}} type={"primary"} size={"large"} style={  {width:'40%',height:"40px",alignSelf:"center",letterSpacing:"1px"}  }>Login</Button>
+                <Button onClick={()=>{onClickLogin(username,password,setLoginClicked)}} type={"primary"} size={"large"} style={  {width:'40%',height:"40px",alignSelf:"center",letterSpacing:"1px",background:`${cryptoEnvironment.styles.mainColor}`}  }>Login</Button>
             </LoginForm>
         </Div>
     );

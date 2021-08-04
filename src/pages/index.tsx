@@ -1,17 +1,12 @@
 import ViewModuleManager from "../components/viewModuleManager/ViewModuleManager";
-import styled from "styled-components";
-import {ViewModuleManagerProps} from "../components/viewModuleManager/ViewModuleManagerType";
 import {LoginMetaProps} from "./loginModule/LoginModule";
 import RouterController, {Pages} from "../utilz/router/RouterController";
-import initEnvironment from "../environment/Env";
-import {useEffect} from "react";
 import {HomeModuleMetaProps} from "./homeModule/HomeModule";
+import {AdministrationModuleProps} from "./administrationModule/AdministrationModule";
+import {BotModuleProps} from "./botModule/BotModule";
 
 
 
-function constructBaseUrl(restUrl:string){
-    return `/Lno/crypto/${restUrl}`
-}
 
 const modulePages:Array<Pages> = [
         {
@@ -23,6 +18,14 @@ const modulePages:Array<Pages> = [
             path:"/crypto/",
             Component:<ViewModuleManager module={HomeModuleMetaProps}/>
         },
+        {
+            path:"/crypto/administration/",
+            Component:<ViewModuleManager module={AdministrationModuleProps}/>
+        },
+        {
+            path:"/crypto/bot",
+            Component:<ViewModuleManager module={BotModuleProps}/>
+        }
     ]
 
 

@@ -8,14 +8,54 @@ import { useHistory } from "react-router-dom";
 import {HomeModuleContextProps} from "../../HomeModule";
 import {UserDetails} from "../../../../store/userReducer/UserReducer";
 import {Store} from "../../../../store/Store";
+import SummaryBoxes, {BoxProps, GridProps} from "../../../../components/summaryBoxes/SummaryBoxes";
+import ActiveProcessSummary from "./summaryDetails/ActiveProcessSummary";
+import ProcessHistorySummary from "./summaryDetails/ProcessHistorySummary";
+import WalletSummary from "./summaryDetails/WalletSummary";
+import CryptoPricesSummary from "./summaryDetails/CryptoPricesSummary";
 
 const Div = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  background: #61dafb;
   overflow: hidden;
 `
+const Content = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100%;
+`
+
+
+
+const gridProps:GridProps = {
+        DivGrid:styled.div`
+            grid-template-areas:
+              "activeProcesses processHistory"
+              "wallet  cryptoPrices";
+            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+        `
+}
+const boxProps:Array<BoxProps> = [
+    {
+        name:"activeProcesses",
+        ComponentDiv:<ActiveProcessSummary/>
+    },
+    {
+        name:"processHistory",
+        ComponentDiv:<ProcessHistorySummary/>
+    },
+    {
+        name:"wallet",
+        ComponentDiv:<WalletSummary/>
+    },
+    {
+        name:"cryptoPrices",
+        ComponentDiv:<CryptoPricesSummary/>
+    }
+]
+
 
 
 export default (props: ModuleViewControls) => {
@@ -26,22 +66,13 @@ export default (props: ModuleViewControls) => {
     const userDetails: UserDetails = useSelector((store: Store) => {
         return store.userReducer.userDetails
     });
-    const initialized: boolean = useSelector((store: Store) => {
-
-        return store.userReducer.initialized;
-    });
-
-
-    useEffect(() => {
-        if(!initialized){
-           history.push("/");
-        }
-
-    }, []);
 
     return (
         <Div>
-            OVERVIEW
+            <Content>
+                <SummaryBoxes gridProps={gridProps} boxProps={boxProps}/>
+            </Content>
+
         </Div>
     );
 };

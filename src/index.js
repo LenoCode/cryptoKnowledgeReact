@@ -9,7 +9,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "./store/Store";
 import {Provider} from "react-redux";
-import initEnvironment from "./environment/Env";
+import {initEnvironment} from "./environment/Env";
 
 
 const logger = createLogger({

@@ -7,6 +7,7 @@ import {Button, PageHeader, Tag} from "antd";
 //PAGES
 import LoginPage from "./loginPages/login/LoginPage";
 import styled from "styled-components";
+import {cryptoEnvironment} from "../../environment/Env";
 
 export interface LoginModuleContextProps{
     test:string
@@ -24,7 +25,7 @@ const Header = styled.div`
   align-items: center;
   height: 80px;
   width: 100%;
-  background: #1890ff;
+  background: ${cryptoEnvironment.styles.mainColor};
   margin:1px;
 `
 const Name = styled.p`

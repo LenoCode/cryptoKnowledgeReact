@@ -1,11 +1,11 @@
 import {USER_REDUCER_NAME, UserReducerState} from "./UserReducer";
 import {Action} from "../Store";
-import {CryptoRestUserDetailsDto} from "../../utilz/rest/clients/CryptoRestDtos";
+import {CryptoGetRestUserDetailsResponseDto} from "../../utilz/rest/clients/CryptoRestDtos";
 
 
 
 
-export function dispatchNewUserDetails(userDetails:CryptoRestUserDetailsDto,token:string|null){
+export function dispatchNewUserDetails(userDetails:CryptoGetRestUserDetailsResponseDto, token:string|null){
 
     const callbackDispatch = (newState:UserReducerState,payload:any)=>{
         if(!newState.initialized){
